@@ -279,6 +279,11 @@ CFLAGS += \
 # Suppress warning caused by SDK
 CFLAGS += -Wno-unused-parameter -Wno-expansion-to-defined
 
+# Suppress false positives from modern GCC (12+) on hardcoded-address
+# dereferences and SDK memcpy patterns
+CFLAGS += -Wno-array-bounds -Wno-stringop-overflow -Wno-stringop-overread
+CFLAGS += -Wno-unterminated-string-initialization
+
 # TinyUSB tusb_hal_nrf_power_event
 CFLAGS += -Wno-cast-function-type
 
