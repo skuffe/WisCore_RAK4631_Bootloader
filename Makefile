@@ -374,6 +374,9 @@ INC_PATHS = $(addprefix -I,$(IPATH))
 # default target to build
 all: $(BUILD)/$(OUT_NAME).out $(BUILD)/$(OUT_NAME)_nosd.hex $(BUILD)/update-$(OUT_NAME)_nosd.uf2 $(BUILD)/$(MERGED_FILE).hex $(BUILD)/$(MERGED_FILE).zip
 
+# UF2 update package only — no adafruit-nrfutil needed
+uf2: $(BUILD)/$(OUT_NAME).out $(BUILD)/update-$(OUT_NAME)_nosd.uf2
+
 zip: 
 (BUILD)/$(MERGED_FILE).zip: $(BUILD)/$(OUT_NAME).hex
 	@$(NRFUTIL) dfu genpkg --dev-type 0x0052 --dev-revision $(DFU_DEV_REV) --bootloader $< --softdevice $(SD_HEX) $@
