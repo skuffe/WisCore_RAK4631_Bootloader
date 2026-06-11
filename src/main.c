@@ -61,6 +61,7 @@
 #include "nrf_error.h"
 
 #include "boards.h"
+#include "dfu_tcp.h"
 #include "uf2/uf2.h"
 
 #include "pstorage_platform.h"
@@ -231,6 +232,17 @@ int main(void)
 static void check_dfu_mode(void)
 {
   uint32_t const gpregret = NRF_POWER->GPREGRET;
+
+#ifdef NRF52840_XXAA
+  // TCP DFU via W5100S ethernet (explicit app request only). Resets the MCU
+  // on success; on timeout/failure falls through to the normal boot logic.
+  if ( gpregret == DFU_MAGIC_TCP_RESET )
+  {
+    NRF_POWER->GPREGRET = 0;
+    dfu_tcp_run();
+    return;
+  }
+#endif
 
   // SD is already Initialized in case of BOOTLOADER_DFU_OTA_MAGIC
   _sd_inited = (gpregret == DFU_MAGIC_OTA_APPJUM);

@@ -130,6 +130,7 @@ endif
 C_SRC += \
   src/dfu_ble_svc.c \
   src/dfu_init.c \
+  src/dfu_tcp.c \
   src/flash_nrf5x.c \
   src/main.c \
 
